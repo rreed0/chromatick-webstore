@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  EXPIRED
+  FAILED
+  REFUNDED
+}
+
+model Order {
+  id                      String      @id @default(cuid())
+  status                  OrderStatus @default(PENDING)
+  currency                String
+  amountSubtotal          Int
+  amountShipping          Int         @default(0)
+  amountTotal             Int
+  shippingCountry         String?
+  shippingName            String?
+  shippingLine1           String?
+  shippingLine2           String?
+  shippingCity            String?
+  shippingState           String?
+  shippingPostalCode      String?
+  stripeCheckoutSessionId String?     @unique
+  stripePaymentIntentId   String?     @unique
+  stripeCustomerEmail     String?
+  items                   OrderItem[]
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
+}
+
+model OrderItem {
+  id            String   @id @default(cuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId     String
+  productSlug   String
+  productName   String
+  quantity      Int
+  unitAmount    Int
+  stripePriceId String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([orderId])
+}

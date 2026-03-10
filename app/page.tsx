@@ -1,23 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import { SiteHeader } from "@/components/SiteHeader";
 import { products } from "@/lib/products";
 
 export default function Home() {
   return (
     <main className="min-h-dvh bg-background text-foreground">
-      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div className="text-sm font-semibold tracking-tight">Chromatick</div>
-          <nav className="flex items-center gap-6 text-sm text-foreground/70">
-            <Link href="/" className="hover:text-foreground">
-              Shop
-            </Link>
-            <a href="#about" className="hover:text-foreground">
-              About
-            </a>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader showAboutLink />
 
       <section className="mx-auto max-w-7xl px-6 pb-10 pt-16 md:pt-24">
         <h1 className="text-4xl font-semibold tracking-tight md:text-6xl">

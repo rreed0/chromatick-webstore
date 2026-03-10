@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BuyButton } from "@/components/BuyButton";
 import { ProductGallery } from "@/components/ProductGallery";
-import { products } from "@/lib/products";
+import { SiteHeader } from "@/components/SiteHeader";
+import { getProductBySlug } from "@/lib/products";
 
 export default async function ProductPage({
   params,
@@ -11,7 +11,7 @@ export default async function ProductPage({
 }) {
   const { slug } = await params;
 
-  const product = products.find((p) => p.slug === slug);
+  const product = getProductBySlug(slug);
   if (!product) return notFound();
 
   const galleryImages = product.images.length
@@ -20,21 +20,7 @@ export default async function ProductPage({
 
   return (
     <main className="min-h-dvh bg-background text-foreground">
-      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <Link href="/" className="text-sm font-semibold tracking-tight">
-            Chromatick
-          </Link>
-          <nav className="flex items-center gap-6 text-sm text-foreground/70">
-            <Link href="/" className="hover:text-foreground">
-              Shop
-            </Link>
-            <Link href="/#about" className="hover:text-foreground">
-              About
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader showAboutLink />
 
       <section className="mx-auto max-w-6xl px-6 pb-24 pt-10">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] lg:items-start">
@@ -59,7 +45,7 @@ export default async function ProductPage({
               </div>
             </div>
 
-            <BuyButton />
+            <BuyButton productId={product.id} />
 
             <div className="mt-10 grid gap-3 text-sm text-foreground/65">
               <div className="flex items-start gap-3">
@@ -103,7 +89,7 @@ export default async function ProductPage({
                 <div className="mt-3 text-sm leading-relaxed text-foreground/65">
                 <p>&#9662; Ships in 2-5 business days</p>
                 <p>&#9662; Free domestic shipping</p>
-                <p>&#9662; International shipping available</p>
+                <p>&#9662; Shipping addresses must be within the United States</p>
                 <p>&#9662; Buyer is responsible for return shipping costs and any loss
                 in value if an item is not returned in original condition</p>
                 </div>
