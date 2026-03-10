@@ -12,10 +12,9 @@ This storefront now includes:
 
 1. Copy `.env.example` to `.env`.
 2. Fill in `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET`.
-3. Replace the placeholder `stripePriceId` values in `lib/products.ts` with real Stripe Price IDs from your Stripe dashboard.
-4. Run `npm run prisma:generate`.
-5. Run `npm run prisma:push`.
-6. Start the app with `npm run dev`.
+3. Run `npm run prisma:generate`.
+4. Run `npm run prisma:push`.
+5. Start the app with `npm run dev`.
 
 ## Local Stripe Webhooks
 
