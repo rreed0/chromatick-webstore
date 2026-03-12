@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useCart } from "@/components/CartProvider";
+import { Button } from "@/components/ui/button";
 
 type BuyButtonProps = {
   productId: string;
@@ -21,19 +22,16 @@ export function BuyButton({ productId, label = "Add to cart" }: BuyButtonProps) 
 
   return (
     <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-      <button
+      <Button
         type="button"
-        className="w-full rounded-2xl bg-foreground px-5 py-3 text-sm font-medium text-background hover:opacity-90"
+        className="w-full rounded-2xl px-5 py-3"
         onClick={handleClick}
       >
         {wasAdded ? "Added to cart" : label}
-      </button>
-      <Link
-        href="/cart"
-        className="w-full rounded-2xl border border-foreground/15 px-5 py-3 text-center text-sm font-medium text-foreground hover:border-foreground/30"
-      >
-        View cart
-      </Link>
+      </Button>
+      <Button asChild variant="outline" className="w-full rounded-2xl px-5 py-3">
+        <Link href="/cart">View cart</Link>
+      </Button>
     </div>
   );
 }

@@ -13,6 +13,8 @@
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.4.2",
     "@prisma/client": "^7.4.2",
+    "@radix-ui/react-slot": "^1.2.4",
+    "framer-motion": "^12.35.2",
     "next": "^16.1.5",
     "node": "^25.6.0",
     "react": "19.2.3",

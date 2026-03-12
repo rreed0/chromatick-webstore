@@ -54,12 +54,12 @@ export const products: Product[] = [
   createProduct({
     id: "p_f91wg",
     slug: "f91w-green",
-    name: "F91W (Green)",
+    name: "F-91W (Green)",
     unitAmount: 7900,
     stripePriceId: "price_1T9DZJC43iSsvnqNp1zivn6z",
     short: "A modern take on the classic Casio F-91W, featuring a green color scheme.",
     details: [
-      "All-black F91W base",
+      "All-black F-91W base",
       "Always-on green tinted display",
       "Stopwatch, alarm, LED backlight",
       "Lightweight resin case and strap",
@@ -102,12 +102,12 @@ export const products: Product[] = [
   createProduct({
     id: "p_f91wr",
     slug: "f91w-red",
-    name: "F91W (Red)",
+    name: "F-91W (Red)",
     unitAmount: 7900,
     stripePriceId: "price_1T9DZJC43iSsvnqNp1zivn6z",
     short: "A modern take on the classic Casio F-91W, featuring a red color scheme.",
     details: [
-      "All-black F91W base",
+      "All-black F-91W base",
       "Always-on red tinted display",
       "Stopwatch, alarm, LED backlight",
       "Lightweight resin case and strap",
@@ -127,12 +127,12 @@ export const products: Product[] = [
   createProduct({
     id: "p_f91wa",
     slug: "f91w-amber",
-    name: "F91W (Amber)",
+    name: "F-91W (Amber)",
     unitAmount: 7900,
     stripePriceId: "price_1T9DZJC43iSsvnqNp1zivn6z",
     short: "A modern take on the classic Casio F-91W, featuring an amber color scheme.",
     details: [
-      "All-black F91W base",
+      "All-black F-91W base",
       "Always-on amber tinted display",
       "Stopwatch, alarm, LED backlight",
       "Lightweight resin case and strap",

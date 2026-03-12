@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
+import { AccentSync } from "@/components/AccentSync";
 import { BuyButton } from "@/components/BuyButton";
 import { ProductGallery } from "@/components/ProductGallery";
 import { SiteHeader } from "@/components/SiteHeader";
+import { getAccentForProductId } from "@/lib/accent-colors";
 import { getProductBySlug } from "@/lib/products";
 
 export default async function ProductPage({
@@ -20,6 +22,7 @@ export default async function ProductPage({
 
   return (
     <main className="min-h-dvh bg-background text-foreground">
+      <AccentSync accent={getAccentForProductId(product.id)} />
       <SiteHeader showAboutLink />
 
       <section className="mx-auto max-w-6xl px-6 pb-24 pt-10">
