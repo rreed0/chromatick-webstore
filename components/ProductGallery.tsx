@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 type ProductGalleryProps = {
   name: string;
@@ -10,15 +10,39 @@ type ProductGalleryProps = {
 
 export function ProductGallery({ name, images }: ProductGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
-
-  if (!images.length) return null;
+  const mainWrapRef = useRef<HTMLDivElement | null>(null);
+  const [mainHeight, setMainHeight] = useState<number | null>(null);
 
   const selectedImage = images[selectedIndex] ?? images[0];
+
+  // Keep the thumbnail scroller height in sync with the selected image.
+  // This prevents thumbnails from visually extending below the main image.
+  useLayoutEffect(() => {
+    const el = mainWrapRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const h = el.getBoundingClientRect().height;
+      setMainHeight(Number.isFinite(h) ? h : null);
+    };
+
+    update();
+
+    const ro = new ResizeObserver(() => update());
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  if (!images.length) return null;
 
   return (
     <div className="grid gap-4 md:grid-cols-[6rem_minmax(0,1fr)] md:items-start">
       {images.length > 1 && (
-        <div className="order-2 flex gap-2 overflow-x-auto pb-2 md:order-1 md:max-h-[36rem] md:flex-col md:overflow-x-hidden md:overflow-y-auto md:pb-0 md:pr-1">
+        <div
+          className="product-thumb-scroller order-2 flex gap-2 overflow-x-auto pb-2 md:order-1 md:flex-col md:overflow-x-hidden md:overflow-y-auto md:pb-0 md:pr-1"
+          // Clamp vertical thumbnails to the main image height (when measured).
+          style={mainHeight ? { maxHeight: mainHeight } : undefined}
+        >
           {images.map((src, i) => (
             <button
               key={`${src}-${i}`}
@@ -45,7 +69,10 @@ export function ProductGallery({ name, images }: ProductGalleryProps) {
         </div>
       )}
 
-      <div className="order-1 overflow-hidden rounded-[28px] border border-foreground/10 bg-foreground/[0.04] md:order-2">
+      <div
+        ref={mainWrapRef}
+        className="order-1 overflow-hidden rounded-[28px] border border-foreground/10 bg-foreground/[0.04] md:order-2"
+      >
         <div className="aspect-square">
           <Image
             src={selectedImage}

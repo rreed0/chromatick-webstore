@@ -97,3 +97,27 @@ body {
     transform: translateX(-50%);
   }
 }
+
+/* Product gallery thumbnail scroller: clean, non-stock scrollbar */
+.product-thumb-scroller {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(255, 255, 255, 0.58) rgba(255, 255, 255, 0.08); /* Firefox */
+}
+.product-thumb-scroller::-webkit-scrollbar {
+  height: 8px; /* horizontal (mobile) */
+  width: 8px; /* vertical (desktop) */
+}
+.product-thumb-scroller::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+}
+.product-thumb-scroller::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.34);
+  border-radius: 9999px;
+  border: 2px solid transparent; /* creates spacing from track */
+  background-clip: content-box;
+}
+.product-thumb-scroller::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}

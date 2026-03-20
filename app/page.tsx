@@ -16,16 +16,12 @@ export default function Home() {
       <div className="space-y-10 pb-10 pt-4 md:space-y-12 md:pb-14">
         <section className="grid gap-8 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] md:items-center">
           <div className="space-y-5">
-            <h1 className="text-balance text-4xl font-semibold tracking-tight md:text-5xl lg:text-6xl">
-              Retro digital Casios,
-              <span className="block text-[var(--accent-green)]">
-                rebuilt for the present.
-              </span>
+            <h1 className="text-balance whitespace-nowrap text-4xl font-semibold tracking-tight md:text-5xl lg:text-7xl">
+              <span className="text-[var(--accent-green)]">chroma</span>tick
             </h1>
             <p className="max-w-xl text-sm leading-relaxed text-[var(--accent-muted)] md:text-base">
-              Chromatick takes classic LF‑20W and F‑91W cases and rebuilds them
-              with new colors, displays, and finishing, then hand-assembles
-              every piece after you order.
+              Chromatick takes classic Casio watches and customizes them
+              with new color displays, hand-assembling each piece after you order.
             </p>
             <div className="flex flex-wrap gap-3">
               <Button asChild className="h-10 px-5 text-xs md:text-sm">
@@ -44,7 +40,7 @@ export default function Home() {
                 "HAND-ASSEMBLED",
                 "MADE TO ORDER",
                 "FREE US SHIPPING",
-                "EVERYDAY-READY BUILDS",
+                "OREGON-BASED",
               ]}
             />
           </div>
@@ -52,7 +48,6 @@ export default function Home() {
           <Card className="relative overflow-hidden">
             <CardContent className="space-y-3 p-4">
               <div className="flex items-center justify-between gap-2 text-[11px] font-mono uppercase tracking-[0.16em] text-[var(--accent-muted)]">
-                <span>Featured Watches</span>
                 <span className="text-[var(--accent-green)]">Auto Showcase</span>
               </div>
               <HeroWatchShowcase />
