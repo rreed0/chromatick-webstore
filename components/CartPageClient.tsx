@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useCart } from "@/components/CartProvider";
+import { Button } from "@/components/ui/button";
 import { productsById } from "@/lib/products";
 
 function formatUsd(amount: number) {
@@ -79,12 +80,9 @@ export function CartPageClient() {
           <p className="mt-4 text-sm text-foreground/65">
             Add a watch from the shop to start checkout.
           </p>
-          <Link
-            href="/"
-            className="mt-6 inline-flex rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background"
-          >
-            Continue shopping
-          </Link>
+          <Button asChild variant="secondary" className="mt-6 px-5 py-3">
+            <Link href="/#catalog">Continue shopping</Link>
+          </Button>
         </div>
       </section>
     );
@@ -116,11 +114,11 @@ export function CartPageClient() {
                 {item.product.name}
               </Link>
               <p className="mt-2 text-sm text-foreground/60">{item.product.short}</p>
-              <p className="mt-3 text-sm text-foreground/60">
+              <p className="mt-12 text-sm text-foreground/60">
                 {item.product.priceDisplay} each
               </p>
             </div>
-            <div className="flex flex-col items-start gap-3 md:items-end">
+            <div className="flex h-full flex-col items-end justify-between gap-3">
               <label className="text-sm text-foreground/60">
                 Qty
                 <select
@@ -128,22 +126,42 @@ export function CartPageClient() {
                   onChange={(event) =>
                     setQuantity(item.product.id, Number(event.target.value))
                   }
-                  className="ml-3 rounded-full border border-foreground/15 bg-transparent px-3 py-2 text-sm"
+                  className="ml-3 rounded-full border border-foreground/15 bg-[var(--surface-elevated)] px-3 py-2 text-sm text-foreground outline-none transition hover:border-foreground/25 focus:border-foreground/25 focus:ring-0"
                 >
                   {Array.from({ length: 10 }, (_, index) => index + 1).map((value) => (
-                    <option key={value} value={value}>
+                    <option
+                      key={value}
+                      value={value}
+                      className="bg-[var(--surface-elevated)] text-foreground"
+                    >
                       {value}
                     </option>
                   ))}
                 </select>
               </label>
-              <p className="text-sm font-medium">{formatUsd(item.lineTotal)}</p>
               <button
                 type="button"
                 onClick={() => removeItem(item.product.id)}
-                className="text-sm text-foreground/60 hover:text-foreground"
+                aria-label={`Remove ${item.product.name} from cart`}
+                title="Remove"
+                className="grid size-10 place-items-center rounded-full border border-red-400/40 bg-red-600 text-white shadow-[0_8px_18px_rgba(220,38,38,0.28)] transition duration-300 hover:-translate-y-0.3 hover:border-red-300/70 hover:bg-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                Remove
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  className="size-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                >
+                  <path d="M3 6h18" />
+                  <path d="M8 6V4h8v2" />
+                  <path d="M19 6l-1 14H6L5 6" />
+                  <path d="M10 11v5" />
+                  <path d="M14 11v5" />
+                </svg>
               </button>
             </div>
           </div>
@@ -159,7 +177,7 @@ export function CartPageClient() {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-foreground/65">Shipping</span>
-            <span>Free (US only)</span>
+            <span className="text-[#7ee787]">Free</span>
           </div>
           <div className="flex items-center justify-between border-t border-foreground/10 pt-3 text-base font-semibold">
             <span>Total</span>
@@ -168,22 +186,22 @@ export function CartPageClient() {
         </div>
 
         <p className="mt-6 text-sm text-foreground/60">
-          Stripe Checkout will only accept US shipping addresses for this first
-          release.
+          US shipping addresses only.
         </p>
 
         {errorMessage ? (
           <p className="mt-4 text-sm text-red-600">{errorMessage}</p>
         ) : null}
 
-        <button
+        <Button
           type="button"
+          variant="secondary"
           onClick={handleCheckout}
           disabled={isSubmitting}
-          className="mt-6 w-full rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background disabled:cursor-not-allowed disabled:opacity-60"
+          className="mt-6 w-full border-blue-500/70 bg-blue-600 px-5 py-3 text-white shadow-[0_10px_22px_rgba(37,99,235,0.35)] hover:border-blue-400 hover:bg-blue-500 disabled:cursor-not-allowed"
         >
           {isSubmitting ? "Redirecting..." : "Checkout"}
-        </button>
+        </Button>
       </aside>
     </section>
   );

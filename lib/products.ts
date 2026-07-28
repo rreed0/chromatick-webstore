@@ -30,10 +30,10 @@ export const products: Product[] = [
   createProduct({
     id: "p_lf20wg",
     slug: "lf-20w-green",
-    name: "LF-20W (Green)",
+    name: "Radar Green — LF-20W",
     unitAmount: 7900,
     stripePriceId: "price_1T9DZJC43iSsvnqNp1zivn6z",
-    short: "A modern take on the classic Casio LF-20W, featuring a green color scheme.",
+    short: "Inspired by vintage radar screens and green phosphor CRT displays.",
     details: [
       "All-black LF-20W base",
       "Always-on green tinted display",
@@ -54,10 +54,10 @@ export const products: Product[] = [
   createProduct({
     id: "p_f91wg",
     slug: "f91w-green",
-    name: "F-91W (Green)",
+    name: "Radar Green — F-91W",
     unitAmount: 7900,
-    stripePriceId: "price_1T9DZJC43iSsvnqNp1zivn6z",
-    short: "A modern take on the classic Casio F-91W, featuring a green color scheme.",
+    stripePriceId: "price_1Td0oCC43iSsvnqNWCF1xDhX",
+    short: "Inspired by vintage radar screens and green phosphor CRT displays.",
     details: [
       "All-black F-91W base",
       "Always-on green tinted display",
@@ -77,10 +77,10 @@ export const products: Product[] = [
   createProduct({
     id: "p_lf20wr",
     slug: "lf-20w-red",
-    name: "LF-20W (Red)",
+    name: "Infrared — LF-20W",
     unitAmount: 7900,
-    stripePriceId: "price_1T9DZJC43iSsvnqNp1zivn6z",
-    short: "A modern take on the classic Casio LF-20W, featuring a red color scheme.",
+    stripePriceId: "price_1Td0qMC43iSsvnqNp3UgPPkm",
+    short: "Inspired by red LED displays and digital instrumentation.",
     details: [
       "All-black LF-20W base",
       "Always-on red tinted display",
@@ -102,10 +102,10 @@ export const products: Product[] = [
   createProduct({
     id: "p_f91wr",
     slug: "f91w-red",
-    name: "F-91W (Red)",
+    name: "Infrared — F-91W",
     unitAmount: 7900,
-    stripePriceId: "price_1T9DZJC43iSsvnqNp1zivn6z",
-    short: "A modern take on the classic Casio F-91W, featuring a red color scheme.",
+    stripePriceId: "price_1Td0t1C43iSsvnqNSAyInIbc",
+    short: "Inspired by red LED displays and digital instrumentation.",
     details: [
       "All-black F-91W base",
       "Always-on red tinted display",
@@ -127,10 +127,10 @@ export const products: Product[] = [
   createProduct({
     id: "p_f91wa",
     slug: "f91w-amber",
-    name: "F-91W (Amber)",
+    name: "Vintage Amber — F-91W",
     unitAmount: 7900,
-    stripePriceId: "price_1T9DZJC43iSsvnqNp1zivn6z",
-    short: "A modern take on the classic Casio F-91W, featuring an amber color scheme.",
+    stripePriceId: "price_1Td0tbC43iSsvnqNwUHDUL6q",
+    short: "Inspired by early computer terminals.",
     details: [
       "All-black F-91W base",
       "Always-on amber tinted display",

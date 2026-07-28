@@ -3,6 +3,7 @@ import Link from "next/link";
 import { HeroWatchShowcase } from "@/components/HeroWatchShowcase";
 import { ScrollingBanner } from "@/components/ScrollingBanner";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SmoothAnchorLink } from "@/components/SmoothAnchorLink";
 import { getAccentForProductId } from "@/lib/accent-colors";
 import { products } from "@/lib/products";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,7 +12,7 @@ import { Button } from "@/components/ui/button";
 export default function Home() {
   return (
     <>
-      <SiteHeader showAboutLink />
+      <SiteHeader />
 
       <div className="space-y-10 pb-10 pt-4 md:space-y-12 md:pb-14">
         <section className="grid gap-8 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] md:items-center">
@@ -23,24 +24,17 @@ export default function Home() {
               Chromatick takes classic Casio watches and customizes them
               with new color displays, hand-assembling each piece after you order.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 pb-3 pt-1">
               <Button asChild className="h-10 px-5 text-xs md:text-sm">
-                <Link href="#catalog">Browse the catalog</Link>
-              </Button>
-              <Button
-                asChild
-                variant="ghost"
-                className="h-10 px-4 text-[11px] md:text-xs"
-              >
-                <Link href="#about">How the mods are built</Link>
+                <SmoothAnchorLink href="#catalog">Browse the catalog</SmoothAnchorLink>
               </Button>
             </div>
             <ScrollingBanner
               items={[
                 "HAND-ASSEMBLED",
                 "MADE TO ORDER",
-                "FREE US SHIPPING",
-                "OREGON-BASED",
+                "FREE U.S. SHIPPING",
+                "MADE IN OREGON",
               ]}
             />
           </div>
@@ -48,14 +42,14 @@ export default function Home() {
           <Card className="relative overflow-hidden">
             <CardContent className="space-y-3 p-4">
               <div className="flex items-center justify-between gap-2 text-[11px] font-mono uppercase tracking-[0.16em] text-[var(--accent-muted)]">
-                <span className="text-[var(--accent-green)]">Auto Showcase</span>
+                <span className="text-[var(--accent-green)]">Showcase</span>
               </div>
               <HeroWatchShowcase />
             </CardContent>
           </Card>
         </section>
 
-        <section id="catalog" className="space-y-5">
+        <section id="catalog" className="scroll-mt-6 space-y-5 md:scroll-mt-8">
           <div className="flex items-end justify-between gap-4">
             <div>
               <h2 className="text-sm font-semibold uppercase tracking-[0.28em] text-[var(--accent-muted)]">
@@ -106,9 +100,6 @@ export default function Home() {
                         {p.short}
                       </p>
                       <div className="flex items-center justify-between pt-2">
-                        <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-[var(--color-muted)]">
-                          View build
-                        </span>
                         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-white/88 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-sm transition-all duration-300 group-hover:border-white/20 group-hover:bg-white/[0.07] group-hover:translate-x-0.5">
                           Details
                           <span
@@ -127,33 +118,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section
-          id="about"
-          className="grid gap-6 rounded-[28px] border border-[var(--border-subtle)] bg-[rgba(7,7,8,0.96)] px-6 py-6 sm:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] md:px-7 md:py-7"
-        >
-          <div className="space-y-3">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.28em] text-[var(--accent-muted)]">
-              About Chromatick
-            </h2>
-            <p className="text-sm leading-relaxed text-[var(--accent-muted)]">
-              Subtext placeholder
-            </p>
-          </div>
-          <div className="space-y-3 text-[11px] font-mono uppercase tracking-[0.18em] text-[var(--accent-muted)]">
-            <div className="rounded-2xl border border-[var(--border-subtle)] bg-[rgba(12,12,13,0.96)] px-4 py-3">
-              <div className="mb-1 text-[10px] text-[var(--accent-green)]">
-                Placeholder
-              </div>
-                <div>Placeholder</div>
-            </div>
-            <div className="rounded-2xl border border-[var(--border-subtle)] bg-[rgba(12,12,13,0.96)] px-4 py-3">
-              <div className="mb-1 text-[10px] text-[var(--accent-green)]">
-                Placeholder
-              </div>
-                <div>Placeholder</div>
-            </div>
-          </div>
-        </section>
       </div>
     </>
   );

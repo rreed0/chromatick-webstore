@@ -8,11 +8,13 @@ export function CartButton() {
   const { itemCount } = useCart();
 
   return (
-    <Button asChild variant="outline" className="h-8 px-3 text-[10px]">
+    <Button asChild variant="outline" className="h-9 px-4 text-[11px]">
       <Link href="/cart">
-        Cart
-        <span className="ml-2 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--accent-green)]/10 text-[10px] font-mono text-[var(--accent-green)]">
-          {itemCount}
+        <span className="inline-grid grid-cols-[auto_auto] items-center justify-center gap-2 text-center tracking-normal">
+          <span className="grid place-items-center leading-none">Cart</span>
+          <span className="grid size-[18px] place-items-center rounded-full bg-[var(--accent-green)]/10 text-[10px] leading-none font-mono tabular-nums text-[var(--accent-green)]">
+            {itemCount}
+          </span>
         </span>
       </Link>
     </Button>
