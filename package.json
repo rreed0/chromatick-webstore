@@ -2,6 +2,9 @@
   "name": "custom-casio-store",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "22.12.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -18,7 +21,6 @@
     "framer-motion": "^12.35.2",
     "motion": "^12.36.0",
     "next": "^16.1.5",
-    "node": "^25.6.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "stripe": "^20.4.1",
