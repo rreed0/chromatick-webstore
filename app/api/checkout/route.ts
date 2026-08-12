@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { sanitizeCartItems, type CartItemInput } from "@/lib/cart";
 import { getProductById } from "@/lib/products";
 import { getStripeServer } from "@/lib/stripe";
+import { getStripePriceId } from "@/lib/stripe-prices";
 
 function getBaseUrl(request: Request) {
   return process.env.NEXT_PUBLIC_APP_URL ?? request.headers.get("origin") ?? "";
@@ -19,16 +20,18 @@ export async function POST(request: Request) {
 
     const orderItems = cartItems.map((item) => {
       const product = getProductById(item.productId);
+    
       if (!product) {
-        throw new Error("One of the selected products is no longer available.");
+        throw new Error(
+          "One of the selected products is no longer available."
+        );
       }
-
-      if (!product.stripePriceId) {
-        throw new Error(`Missing Stripe price for ${product.name}.`);
-      }
-
+    
+      const stripePriceId = getStripePriceId(product.id);
+    
       return {
         product,
+        stripePriceId,
         quantity: item.quantity,
         lineTotal: product.unitAmount * item.quantity,
       };
@@ -54,7 +57,7 @@ export async function POST(request: Request) {
             productName: item.product.name,
             quantity: item.quantity,
             unitAmount: item.product.unitAmount,
-            stripePriceId: item.product.stripePriceId,
+            stripePriceId: item.stripePriceId,
           })),
         },
       },
@@ -91,7 +94,7 @@ export async function POST(request: Request) {
           },
         ],
         line_items: orderItems.map((item) => ({
-          price: item.product.stripePriceId,
+          price: item.stripePriceId,
           quantity: item.quantity,
         })),
         success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
