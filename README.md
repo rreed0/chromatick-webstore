@@ -1,108 +1,194 @@
 # Chromatick
 
-Chromatick is a modern e-commerce storefront for custom-modified Casio watches.
+Chromatick is a full-stack e-commerce storefront for custom-modified Casio watches.
 
 ## Overview
 
-The storefront is designed to feel premium and product-focused on the frontend while remaining practical to operate as a small made-to-order business. The current implementation includes a curated product catalog, client-side cart, hosted Stripe checkout, and a server-side order record backed by Prisma.
+Chromatick combines a product-focused shopping experience with a production-ready checkout and order-processing backend.
 
-## Current Status
-
-- Stripe is configured in test mode by default; live purchases require switching Stripe to live mode and updating the keys.
-- Frontend and backend are under active development.
-- The codebase represents an active development build rather than a production launch state.
+Customers can browse custom watch colorways, manage a cart, and complete purchases through Stripe Checkout. Orders are stored in PostgreSQL via Prisma and synchronized with Stripe through signed webhook events.
 
 ## Features
 
-- Product catalog and product detail pages
-- Animated homepage showcase with dynamic accent theming
+- Responsive product catalog and product pages
 - Client-side shopping cart
-- Hosted Stripe Checkout
-- Stripe webhook handling for payment status updates
-- Order persistence with Prisma and PostgreSQL
-- US-only shipping restriction in checkout
-- Made-to-order storefront copy and small-brand presentation
+- Stripe-hosted Checkout
+- Live payment processing
+- Stripe webhook verification
+- PostgreSQL order persistence
+- Prisma ORM and migrations
+- Server-controlled product pricing
+- Separate Stripe test and production environments
+- US-only shipping
+- Checkout success and cancellation flows
+- Vercel deployment
 
 ## Tech Stack
 
-- Next.js 16 with App Router
-- React 19
+- Next.js
+- React
 - TypeScript
-- Tailwind CSS v4
-- Framer Motion / Motion
+- Tailwind CSS
+- Motion
 - Prisma ORM
-- PostgreSQL (see `DATABASE_URL` in the .env example)
-- Stripe Checkout + webhooks
+- PostgreSQL / Prisma Postgres
+- Stripe Checkout
+- Stripe Webhooks
+- Vercel
 
-## Running Locally
+## Architecture
 
-1. Install dependencies:
+    Customer
+       |
+       v
+    Next.js Storefront
+       |
+       +----> Prisma ----> PostgreSQL
+       |
+       +----> Stripe Checkout
+                  |
+                  v
+               Payment
+                  |
+                  v
+            Stripe Webhook
+                  |
+                  v
+            Order Update
 
-```bash
-npm install
-```
+Checkout creates a `PENDING` order before redirecting the customer to Stripe. Webhook events then update the order based on the resulting payment state.
 
-2. Create a `.env` file in the project root with the required variables. This project uses Prisma with a PostgreSQL datasource by default — set `DATABASE_URL` to a PostgreSQL connection string (for local development you can use a local Postgres instance or Docker):
+## Order States
 
-```env
-# Example for a local Postgres instance
-DATABASE_URL="postgresql://postgres:password@localhost:5432/chromatick_dev"
+    PENDING
+    PAID
+    EXPIRED
+    FAILED
+    REFUNDED
 
-# Public URL used by Stripe for redirects in dev
-NEXT_PUBLIC_APP_URL="http://localhost:3000"
+A successful order follows:
 
-# Stripe keys (use test keys while developing)
-STRIPE_SECRET_KEY="sk_test_..."
-STRIPE_WEBHOOK_SECRET="whsec_..."
-```
+    PENDING -> PAID
 
-If you prefer to use SQLite for quick prototypes, update `prisma/schema.prisma` datasource and the `DATABASE_URL` accordingly; the current schema is configured for PostgreSQL.
+## Environment Variables
 
-3. Generate the Prisma client:
+Create a `.env` file for local development:
 
-```bash
-npm run prisma:generate
-```
+    DATABASE_URL="your_postgres_connection_string"
+    NEXT_PUBLIC_APP_URL="http://localhost:3000"
 
-4. Push the database schema (creates tables in the configured database):
+    STRIPE_SECRET_KEY="sk_test_..."
+    STRIPE_WEBHOOK_SECRET="whsec_..."
 
-```bash
-npm run prisma:push
-```
+    STRIPE_PRICE_LF20W_GREEN="price_..."
+    STRIPE_PRICE_F91W_GREEN="price_..."
+    STRIPE_PRICE_LF20W_RED="price_..."
+    STRIPE_PRICE_F91W_RED="price_..."
+    STRIPE_PRICE_F91W_AMBER="price_..."
 
-5. Start the development server:
+Local development uses Stripe test credentials and test Price IDs. Production uses separate live credentials and live Price IDs configured in Vercel.
 
-```bash
-npm run dev
-```
+## Local Development
 
-The app will be available at http://localhost:3000.
+Install dependencies:
 
-## Local Stripe Webhooks
+    npm install
 
-Use the Stripe CLI to forward events to the local webhook endpoint:
+Generate the Prisma client:
 
-```bash
-stripe listen --forward-to localhost:3000/api/stripe/webhook
-```
+    npx prisma generate
 
-Copy the webhook signing secret from the Stripe CLI output into `STRIPE_WEBHOOK_SECRET`.
+Apply migrations:
 
-## Data Model
+    npx prisma migrate dev
 
-Orders are stored as guest checkouts and include:
+Start the development server:
 
-- order status
-- pricing totals
-- shipping details
-- Stripe checkout/payment identifiers
-- individual line items
+    npm run dev
 
-The Prisma schema in `prisma/schema.prisma` models Order and OrderItem and is currently set up to use PostgreSQL.
+The app will be available at:
 
-## Implementation Notes
+    http://localhost:3000
 
-- Pricing is trusted from the server-side catalog rather than the browser cart payload.
-- Checkout currently accepts only United States shipping addresses.
-- Order records are updated from Stripe webhook events after checkout completes.
-- Stripe Checkout is integrated in test mode by default; real transactions require switching to live mode and providing live Stripe keys.
+## Stripe Webhooks
+
+For local webhook testing:
+
+    stripe listen --forward-to localhost:3000/api/stripe/webhook
+
+Add the generated signing secret to:
+
+    STRIPE_WEBHOOK_SECRET="whsec_..."
+
+The webhook handles:
+
+    checkout.session.completed
+    checkout.session.async_payment_succeeded
+    checkout.session.expired
+    payment_intent.payment_failed
+    charge.refunded
+
+## Database
+
+The application uses PostgreSQL hosted with Prisma Postgres.
+
+Primary models:
+
+- `Order`
+- `OrderItem`
+
+Inspect the database with:
+
+    npx prisma studio
+
+Orders store payment status, totals, customer email, shipping information, Stripe identifiers, and purchased line items.
+
+## Payment Flow
+
+    Cart
+      |
+      v
+    POST /api/checkout
+      |
+      v
+    Create PENDING Order
+      |
+      v
+    Create Stripe Checkout Session
+      |
+      v
+    Customer Pays
+      |
+      v
+    Stripe Webhook
+      |
+      v
+    Update Order to PAID
+
+Product pricing is resolved on the server rather than trusted from the browser.
+
+Stripe Price IDs are supplied through environment variables, allowing local development to remain in test mode while production uses live Stripe objects.
+
+## Deployment
+
+Chromatick is deployed on Vercel with:
+
+- Prisma Postgres
+- Stripe live-mode credentials
+- Production webhook configuration
+- Environment-specific Stripe Price IDs
+
+Database schema changes are tracked with Prisma migrations.
+
+## Project Status
+
+The core commerce flow is operational end to end:
+
+    Storefront
+      -> Cart
+      -> Checkout
+      -> Stripe Payment
+      -> Webhook
+      -> PostgreSQL Order Update
+
+Planned improvements include merchant order notifications, customer confirmation emails, and expanded order-management tooling.
