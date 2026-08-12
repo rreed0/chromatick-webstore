@@ -4,6 +4,7 @@ export type Product = {
   name: string;
   unitAmount: number;
   priceDisplay: string;
+  stripePriceId: string;
   short: string;
   details: string[];
   thumbnail: string;
@@ -31,6 +32,7 @@ export const products: Product[] = [
     slug: "lf-20w-green",
     name: "Radar Green — LF-20W",
     unitAmount: 7900,
+    stripePriceId: "price_1T9DZJC43iSsvnqNp1zivn6z",
     short: "Inspired by vintage radar screens and green phosphor CRT displays.",
     details: [
       "All-black LF-20W base",
@@ -54,6 +56,7 @@ export const products: Product[] = [
     slug: "f91w-green",
     name: "Radar Green — F-91W",
     unitAmount: 7900,
+    stripePriceId: "price_1Td0oCC43iSsvnqNWCF1xDhX",
     short: "Inspired by vintage radar screens and green phosphor CRT displays.",
     details: [
       "All-black F-91W base",
@@ -76,6 +79,7 @@ export const products: Product[] = [
     slug: "lf-20w-red",
     name: "Infrared — LF-20W",
     unitAmount: 7900,
+    stripePriceId: "price_1Td0qMC43iSsvnqNp3UgPPkm",
     short: "Inspired by red LED displays and digital instrumentation.",
     details: [
       "All-black LF-20W base",
@@ -100,6 +104,7 @@ export const products: Product[] = [
     slug: "f91w-red",
     name: "Infrared — F-91W",
     unitAmount: 7900,
+    stripePriceId: "price_1Td0t1C43iSsvnqNSAyInIbc",
     short: "Inspired by red LED displays and digital instrumentation.",
     details: [
       "All-black F-91W base",
@@ -124,6 +129,7 @@ export const products: Product[] = [
     slug: "f91w-amber",
     name: "Vintage Amber — F-91W",
     unitAmount: 7900,
+    stripePriceId: "price_1Td0tbC43iSsvnqNwUHDUL6q",
     short: "Inspired by early computer terminals.",
     details: [
       "All-black F-91W base",
