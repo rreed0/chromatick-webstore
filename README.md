@@ -4,13 +4,13 @@ Chromatick is a modern e-commerce storefront for custom-modified Casio watches.
 
 ## Overview
 
-The storefront is designed to feel premium and product-focused on the frontend while remaining practical to operate as a small made-to-order business. The current implementation includes a curated product catalog, animated merchandising on the homepage, a cart and checkout flow, and order persistence backed by Stripe and Prisma.
+The storefront is designed to feel premium and product-focused on the frontend while remaining practical to operate as a small made-to-order business. The current implementation includes a curated product catalog, client-side cart, hosted Stripe checkout, and a server-side order record backed by Prisma.
 
 ## Current Status
 
-- Stripe is currently configured in test mode, so live purchases are not yet enabled.
-- Frontend and backend are still in progress.
-- The current codebase represents an active development build rather than a production launch state.
+- Stripe is configured in test mode by default; live purchases require switching Stripe to live mode and updating the keys.
+- Frontend and backend are under active development.
+- The codebase represents an active development build rather than a production launch state.
 
 ## Features
 
@@ -19,7 +19,7 @@ The storefront is designed to feel premium and product-focused on the frontend w
 - Client-side shopping cart
 - Hosted Stripe Checkout
 - Stripe webhook handling for payment status updates
-- Order persistence with Prisma and SQLite
+- Order persistence with Prisma and PostgreSQL
 - US-only shipping restriction in checkout
 - Made-to-order storefront copy and small-brand presentation
 
@@ -31,7 +31,7 @@ The storefront is designed to feel premium and product-focused on the frontend w
 - Tailwind CSS v4
 - Framer Motion / Motion
 - Prisma ORM
-- SQLite
+- PostgreSQL (see `DATABASE_URL` in the .env example)
 - Stripe Checkout + webhooks
 
 ## Running Locally
@@ -42,14 +42,21 @@ The storefront is designed to feel premium and product-focused on the frontend w
 npm install
 ```
 
-2. Create a `.env` file in the project root with the required variables:
+2. Create a `.env` file in the project root with the required variables. This project uses Prisma with a PostgreSQL datasource by default — set `DATABASE_URL` to a PostgreSQL connection string (for local development you can use a local Postgres instance or Docker):
 
 ```env
-DATABASE_URL="file:./prisma/dev.db"
+# Example for a local Postgres instance
+DATABASE_URL="postgresql://postgres:password@localhost:5432/chromatick_dev"
+
+# Public URL used by Stripe for redirects in dev
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
-STRIPE_SECRET_KEY="your_stripe_secret_key"
-STRIPE_WEBHOOK_SECRET="your_stripe_webhook_secret"
+
+# Stripe keys (use test keys while developing)
+STRIPE_SECRET_KEY="sk_test_..."
+STRIPE_WEBHOOK_SECRET="whsec_..."
 ```
+
+If you prefer to use SQLite for quick prototypes, update `prisma/schema.prisma` datasource and the `DATABASE_URL` accordingly; the current schema is configured for PostgreSQL.
 
 3. Generate the Prisma client:
 
@@ -57,7 +64,7 @@ STRIPE_WEBHOOK_SECRET="your_stripe_webhook_secret"
 npm run prisma:generate
 ```
 
-4. Push the database schema:
+4. Push the database schema (creates tables in the configured database):
 
 ```bash
 npm run prisma:push
@@ -69,7 +76,7 @@ npm run prisma:push
 npm run dev
 ```
 
-The app will be available at [http://localhost:3000](http://localhost:3000).
+The app will be available at http://localhost:3000.
 
 ## Local Stripe Webhooks
 
@@ -91,11 +98,11 @@ Orders are stored as guest checkouts and include:
 - Stripe checkout/payment identifiers
 - individual line items
 
+The Prisma schema in `prisma/schema.prisma` models Order and OrderItem and is currently set up to use PostgreSQL.
+
 ## Implementation Notes
 
 - Pricing is trusted from the server-side catalog rather than the browser cart payload.
 - Checkout currently accepts only United States shipping addresses.
 - Order records are updated from Stripe webhook events after checkout completes.
-- Stripe Checkout is integrated, but real transactions are not available until live mode is configured.
-
-
+- Stripe Checkout is integrated in test mode by default; real transactions require switching to live mode and providing live Stripe keys.
